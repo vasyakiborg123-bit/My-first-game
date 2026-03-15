@@ -1,5 +1,4 @@
 name: C/C++ CI
-
 on:
   push:
     branches: [ "main" ]
@@ -8,16 +7,21 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    
+    - name: install SDL2
+      run: sudo apt update && sudo apt install libsdl2-dev
+      
+    - name: compile
+      run: g++ main.cpp -lSDL2 -o zmeyka
+      
+    - name: test
+      run: ./zmeyka
+      
+    - name: upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: zmeyka-linux
+        path: zmeyka
