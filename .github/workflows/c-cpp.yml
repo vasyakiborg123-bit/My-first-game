@@ -1,22 +1,14 @@
 name: C/C++ CI
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: install SDL2
-      run: sudo apt update && sudo apt install libsdl2-dev
-    - name: compile
-      run: g++ main.cpp -lSDL2 -o zmeyka
-    - name: test
-      run: ./zmeyka || echo "skip"
-    - name: upload
-      uses: actions/upload-artifact@v4
+    - run: sudo apt update && sudo apt install libsdl2-dev
+    - run: g++ main.cpp -lSDL2 -o zmeyka
+    - run: ./zmeyka || true
+    - uses: actions/upload-artifact@v4
       with:
-        name: zmeyka-linux
+        name: zmeyka
         path: zmeyka
