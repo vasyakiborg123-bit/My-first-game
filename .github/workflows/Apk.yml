@@ -1,0 +1,14 @@
+name: APK Build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: |
+        zip zmeyka.apk main.cpp .gitignore
+        ls -la zmeyka.apk
+    - uses: actions/upload-artifact@v4
+      with:
+        name: zmeyka-apk
+        path: zmeyka.apk
